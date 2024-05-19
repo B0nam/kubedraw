@@ -1,4 +1,4 @@
-from models.serviceModel import Service
+from resources.models.serviceModel import Service
 
 class Ingress:
     def __init__(self, name: str):

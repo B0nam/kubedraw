@@ -1,7 +1,7 @@
-from models.podModel import Pod
-from models.deploymentModel import Deployment
-from models.serviceModel import Service
-from models.ingressModel import Ingress
+from resources.models.podModel import Pod
+from resources.models.deploymentModel import Deployment
+from resources.models.serviceModel import Service
+from resources.models.ingressModel import Ingress
 
 class Namespace:
     def __init__(self, name: str):

@@ -1,4 +1,4 @@
-from models.podModel import Pod
+from resources.models.podModel import Pod
 
 class Deployment:
     def __init__(self, name: str):

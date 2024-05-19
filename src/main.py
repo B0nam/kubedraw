@@ -1,4 +1,4 @@
-from services.diagramService import DiagramService
+from resources.services.diagramService import DiagramService
 
 def main():
     diagram_service = DiagramService()

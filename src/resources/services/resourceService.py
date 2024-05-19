@@ -1,9 +1,9 @@
-from models.namespaceModel import Namespace
-from models.deploymentModel import Deployment
-from models.podModel import Pod
-from models.serviceModel import Service
-from models.ingressModel import Ingress
-from services.kubernetesService import KubernetesService
+from resources.models.namespaceModel import Namespace
+from resources.models.deploymentModel import Deployment
+from resources.models.podModel import Pod
+from resources.models.serviceModel import Service
+from resources.models.ingressModel import Ingress
+from resources.services.kubernetesService import KubernetesService
 
 class ResourceService:
     def __init__(self, kubernetes_service: KubernetesService):
@@ -26,13 +26,13 @@ class ResourceService:
 
         return self._create_namespace_object(namespace, pod_objects, deployment_objects, service_objects, ingress_objects)
 
-    def _link_pods_to_deployments(self, deployments: List[Deployment], deployment_objects: dict, pods: dict, pod_objects: dict):
+    def _link_pods_to_deployments(self, deployments: list, deployment_objects: dict, pods: list, pod_objects: dict):
         for dep in deployments:
             dep_obj = deployment_objects[dep.metadata.name]
             for pod_name in [pod.metadata.name for pod in pods if pod.metadata.owner_references and pod.metadata.owner_references[0].name == dep.metadata.name]:
                 dep_obj.add_pod(pod_objects[pod_name])
 
-    def _link_services_to_deployments_and_pods(self, services: dict, service_objects: dict, deployments: dict, deployment_objects: dict, pods: dict, pod_objects: dict):
+    def _link_services_to_deployments_and_pods(self, services: list, service_objects: dict, deployments: list, deployment_objects: dict, pods: list, pod_objects: dict):
         for svc in services:
             svc_obj = service_objects[svc.metadata.name]
             selector = svc.spec.selector
@@ -40,11 +40,11 @@ class ResourceService:
                 for dep in deployments:
                     dep_obj = deployment_objects[dep.metadata.name]
                     if all(item in dep.spec.selector.match_labels.items() for item in selector.items()):
-                        svc_obj.set_deployment(dep_obj)
+                        svc_obj.add_deployment(dep_obj)
                 for pod_name in [pod.metadata.name for pod in pods if all(item in pod.metadata.labels.items() for item in selector.items())]:
                     svc_obj.add_pod(pod_objects[pod_name])
     
-    def _link_services_to_ingresses(self, ingresses: dict, ingress_objects: dict, services: dict, service_objects: dict):
+    def _link_services_to_ingresses(self, ingresses: list, ingress_objects: dict, services: list, service_objects: dict):
         for ing in ingresses:
             ing_obj = ingress_objects[ing.metadata.name]
             for rule in ing.spec.rules:
