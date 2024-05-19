@@ -9,15 +9,12 @@ class DiagramService:
 
     def generate_diagram_schema(self, namespace='None') -> str:
         try:
-            if (namespace == 'None'):
-                namespaces = self.kubernetes_service.get_namespaces()
-                diagram_schema = ''
-                for namespace in namespaces:
-                    diagram_schema += self._generate_namespace_schema(namespace) + '\n\n'
-                return diagram_schema
+            if namespace == 'None':
+                all_namespaces = self.kubernetes_service.get_namespaces()
+                return '\n'.join([self._generate_namespace_schema(ns) for ns in all_namespaces])
             return self._generate_namespace_schema(namespace)
         except Exception as e:
-            print("[-] Error generating diagram schema:", e)
+            print('[-] Error generating diagram schema:', e)
             raise
 
     def _generate_namespace_schema(self, namespace: str) -> str:
