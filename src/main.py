@@ -1,4 +1,3 @@
-from kubernetes import config
 from services.diagramService import DiagramService
 
 def main():
