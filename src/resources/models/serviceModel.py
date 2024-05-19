@@ -7,9 +7,6 @@ class Service:
         self.deployments = []
         self.pods = []
 
-    def add_deployment(self, deployment: Deployment):
-        self.deployments.append(deployment)
-
     def add_pod(self, pod: Pod):
         self.pods.append(pod)
 

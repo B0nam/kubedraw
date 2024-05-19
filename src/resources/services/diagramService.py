@@ -7,6 +7,9 @@ class DiagramService:
         self.kubernetes_service = KubernetesService()
         self.resources_service = ResourceService(self.kubernetes_service)
 
+    def generate_namespace_obj(self, namespace: str) -> Namespace:
+        return self.resources_service.map_resources(namespace)
+
     def generate_diagram_schema(self, namespace='None') -> str:
         try:
             if namespace == 'None':
@@ -43,5 +46,3 @@ class DiagramService:
                 relationships += (f'{pod.name} -> {deployment.name}' + '\n')
 
         return relationships
-        
-        
