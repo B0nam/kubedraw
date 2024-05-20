@@ -1,5 +1,5 @@
-from resources.models.deploymentModel import Deployment
-from resources.models.podModel import Pod
+from models.deploymentModel import Deployment
+from models.podModel import Pod
 
 class Service:
     def __init__(self, name: str):
