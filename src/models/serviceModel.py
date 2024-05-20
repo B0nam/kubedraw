@@ -1,13 +1,14 @@
-from resources.models.podModel import Pod
+from models.deploymentModel import Deployment
+from models.podModel import Pod
 
-class Deployment:
+class Service:
     def __init__(self, name: str):
         self.name = name
+        self.deployments = []
         self.pods = []
 
     def add_pod(self, pod: Pod):
         self.pods.append(pod)
-        pod.deployment = self
 
     def __str__(self) -> str:
         return self.name
